@@ -58,3 +58,7 @@ Route::get('', function() {
 Route::get('/test_admin', function() {
     return view('admin.index');
 });
+
+Route::get('/test_user', function() {
+    return view('user.index');
+});
