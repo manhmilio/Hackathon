@@ -59,6 +59,9 @@ Route::get('/test_admin', function() {
     return view('admin.index');
 });
 
-Route::get('/test_user', function() {
-    return view('user.index');
-})->name('user.index');
+
+
+Route::group(['prefix' => 'user'], function() {
+    Route::get('/index', function() {return view('user.index');})->name('user.index');
+    Route::get('/library', function() {return view('user.library');})->name('user.library');
+});

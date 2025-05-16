@@ -14,7 +14,7 @@
                     <a href="" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Trang chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link {{ request()->routeIs('library.free') ? 'active' : '' }}">Thư viện số miễn phí</a>
+                    <a href="{{ route('user.library') }}" class="nav-link {{ request()->routeIs('library.free') ? 'active' : '' }}">Thư viện số miễn phí</a>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link {{ request()->routeIs('library.premium') ? 'active' : '' }}">Thư viện số bản quyền</a>
