@@ -61,4 +61,4 @@ Route::get('/test_admin', function() {
 
 Route::get('/test_user', function() {
     return view('user.index');
-});
+})->name('user.index');
