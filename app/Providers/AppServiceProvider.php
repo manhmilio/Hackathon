@@ -7,6 +7,8 @@ use App\Repositories\Interfaces\LoginRepositoryInterface;
 use App\Repositories\Interfaces\RegisterRepositoryInterface;
 use App\Repositories\LoginRepository;
 use App\Repositories\RegisterRepository;
+use App\Repositories\Interfaces\AccountRepositoryInterface;
+use App\Repositories\AccountRepository;
 
 use App\Services\Interfaces\LoginServiceInterface;
 use App\Services\Interfaces\RegisterServiceInterface;
@@ -24,9 +26,11 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(RegisterRepositoryInterface::class, RegisterRepository::class);
         $this->app->bind(LoginRepositoryInterface::class, LoginRepository::class);
+        $this->app->bind(AccountRepositoryInterface::class, AccountRepository::class);
         
         $this->app->bind(RegisterServiceInterface::class, RegisterService::class);
         $this->app->bind(LoginServiceInterface::class, LoginService::class);
+
     }
 
     /**

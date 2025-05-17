@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\admin\AdminProfileController;
 use App\Http\Controllers\admin\UserManageController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +24,14 @@ Route::group(['prefix' => 'login', 'as' => 'login.'], function () {
     Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/', [LoginController::class, 'login'])->name('loginHandler');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
-    Route::get('/forgot_password', [LoginController::class, 'showForgotPasswordForm'])->name('forgot_password');
 });
+
+//Route recovery
+Route::get('/forgot_password', [ForgotPasswordController::class, 'showForgotPasswordForm'])->name('forgot_password');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('password.email');
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('password.update');
+
 
 Route::group(['prefix' => 'register', 'as' => 'register.'], function () {
     Route::get('/', [RegisterController::class, 'showRegisterForm'])->name('register');

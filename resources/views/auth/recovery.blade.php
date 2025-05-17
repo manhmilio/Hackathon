@@ -50,7 +50,7 @@
                                 <div class="alert alert-success text-center mb-4" role="alert">
                                     Enter your Email and instructions will be sent to you!
                                 </div>
-                                <form class="form-horizontal" method="POST" action="">
+                                <form class="form-horizontal" method="POST" action="{{ route('password.email') }}">
                                     @csrf
 
                                     <div class="mb-3">

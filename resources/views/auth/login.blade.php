@@ -113,7 +113,7 @@
                                 </div>
 
                                 <div class="mt-4 text-center">
-                                    <a href="{{ route('login.forgot_password') }}" class="text-muted">
+                                    <a href="{{ route('forgot_password') }}" class="text-muted">
                                         <i class="mdi mdi-lock me-1"></i> Forgot your password?
                                     </a>
                                 </div>

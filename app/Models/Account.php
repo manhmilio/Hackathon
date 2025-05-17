@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Notifications\Notifiable;
 
 class Account extends Authenticatable implements AuthenticatableContract
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $table = 'Accounts';
     protected $primaryKey = 'user_id';
@@ -24,6 +25,8 @@ class Account extends Authenticatable implements AuthenticatableContract
         'balance',
         'is_active',
         'avatar',
+        'email_verified_at',
+        'remember_token',
     ];
 
     public $timestamps = false;
