@@ -44,11 +44,11 @@ class LoginController extends Controller
         if ($result['success']) {
             $user = Auth::guard('web')->user();
             
-            if ($user->role == 1) {
+            if ($user->role == 'admin') {
                 return redirect()->route('admin.dashboard');
             }
             
-            return redirect()->route('user.dashboard');
+            return redirect()->route('user.index');
         }
 
         return redirect()->back()
@@ -63,5 +63,10 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login.login');
+    }
+
+    public function showForgotPasswordForm()
+    {
+        return view('auth.recovery');
     }
 }

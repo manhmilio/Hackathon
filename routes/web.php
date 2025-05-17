@@ -53,7 +53,7 @@ Route::get('/statistics', [UserManageController::class, 'statistics'])->name('st
 
 Route::get('', function() {
     return view('welcome');
-})->name('user.dashboard');
+})->name('home');
 
 Route::get('/test_admin', function() {
     return view('admin.index');
