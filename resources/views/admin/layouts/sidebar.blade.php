@@ -360,13 +360,7 @@
                         <span key="t-charts">@lang('Charts')</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="charts-apex" key="t-apex-charts">@lang('Apex_Charts')</a></li>
-                        <li><a href="charts-echart" key="t-e-charts">@lang('E_Charts')</a></li>
-                        <li><a href="charts-chartjs" key="t-chartjs-charts">@lang('Chartjs_Charts')</a></li>
-                        <li><a href="charts-flot" key="t-flot-charts">@lang('Flot_Charts')</a></li>
-                        <li><a href="charts-tui" key="t-ui-charts">@lang('Toast_UI_Charts')</a></li>
-                        <li><a href="charts-knob" key="t-knob-charts">@lang('Jquery_Knob_Charts')</a></li>
-                        <li><a href="charts-sparkline" key="t-sparkline-charts">@lang('Sparkline_Charts')</a></li>
+                        <li><a href="{{ route('admin.charts') }}" key="t-apex-charts">@lang('Charts')</a></li>
                     </ul>
                 </li>
 

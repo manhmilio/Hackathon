@@ -44,7 +44,7 @@ class LoginController extends Controller
         if ($result['success']) {
             $user = Auth::guard('web')->user();
             
-            if ($user->role == 'admin') {
+            if ($user->role == '1') {
                 return redirect()->route('admin.dashboard');
             }
             

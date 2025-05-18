@@ -8,68 +8,16 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    @include('user.layouts.link')
 </head>
 
 <body>
-    <!-- Spinner Start -->
-    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div>
+    @include('user.layouts.spinner')
     <!-- Spinner End -->
 
 
     <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-        <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>eLEARNING</h2>
-        </a>
-        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="index.html" class="nav-item nav-link">Trang chủ</a>
-                <a href="library.html" class="nav-item nav-link">Thư viện số miễn phí</a>
-                <a href="libraryLicense.html" class="nav-item nav-link">Thư viện số bản quyền</a>
-                <a href="comment.html" class="nav-item nav-link">Bình luận</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Tài khoản cá nhân</a>
-                    <div class="dropdown-menu fade-down m-0">
-                        <a href="profile.html" class="dropdown-item active">Trang cá nhân</a>
-                        <a href="myfile.html" class="dropdown-item">Tài liệu của tôi</a>
-                        <a href="boughtHistory.html" class="dropdown-item">lịch sử mua</a>
-                        <a href="transfer.html" class="dropdown-item">Nạp tiền</a>
-                        <span class="dropdown-item" style="background-color: aqua;">Số dư: 0đ</span>
-                    </div>
-                </div>
-                <a href="contact.html" class="nav-item nav-link">Liên hệ</a>
-            </div>
-            <a href="login.html" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">ĐĂNG NHẬP<i class="fa fa-arrow-right ms-3"></i></a>
-        </div>
-    </nav>
+    @include('user.layouts.navbar')
     <!-- Navbar End -->
 
     <!-- Header Start -->
@@ -99,15 +47,17 @@
             <div class="col-lg-3 col-md-4">
                 <div class="bg-light p-4 shadow rounded mb-4">
                     <div class="text-center mb-3">
-                        <form action="#" method="post" enctype="multipart/form-data">
-                            <img src="img/user-profile.jpg" class="img-fluid rounded-circle mb-2" width="100" alt="User Avatar">
+                        <form action="{{ route('user.profile.avatar') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <img src="{{ $user->avatar ? asset('storage/avatars/'.$user->avatar) : asset('img/user-profile.jpg') }}" 
+                                 class="img-fluid rounded-circle mb-2" width="100" alt="User Avatar">
                             <div class="mb-2">
-                                <input type="file" class="form-control form-control-sm" accept="image/*">
+                                <input type="file" name="avatar" class="form-control form-control-sm" accept="image/*">
                             </div>
                             <button class="btn btn-sm btn-outline-primary" type="submit">Cập nhật ảnh</button>
                         </form>
-                        <h5 class="mb-0 mt-3">Nguyễn Văn A</h5>
-                        <small class="text-muted">Thành viên từ 2023</small>
+                        <h5 class="mb-0 mt-3">{{ $user->username }}</h5>
+                        <small class="text-muted">Thành viên từ {{ $user->created_at ? $user->created_at->format('Y') : 'N/A' }}</small>
                     </div>
                     <ul class="nav flex-column">
                         <li class="nav-item mb-2"><a href="profile.html" class="nav-link"><i class="fa fa-user me-2"></i>Trang cá nhân</a></li>
@@ -123,49 +73,71 @@
             <div class="col-lg-9 col-md-8">
                 <div class="bg-white shadow rounded p-4 mb-4">
                     <h4 class="mb-4">Thông tin cá nhân</h4>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Họ và tên</label>
-                            <input type="text" class="form-control" value="Nguyễn Văn A">
+                    @if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
+                    
+                    <form action="{{ route('user.profile.update') }}" method="post">
+                        @csrf
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Họ và tên</label>
+                                <input type="text" name="name" class="form-control" value="{{ $user->username }}">
+                                @error('name')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control" value="{{ $user->email }}">
+                                @error('email')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" value="nguyenvana@example.com">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Số điện thoại</label>
+                                <input type="text" name="phone" class="form-control" value="{{ $user->phone ?? '' }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Địa chỉ</label>
+                                <input type="text" name="address" class="form-control" value="{{ $user->address ?? '' }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Số điện thoại</label>
-                            <input type="text" class="form-control" value="0901234567">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Mật khẩu</label>
-                            <input type="password" class="form-control" value="********">
-                        </div>
-                    </div>
-                    <button class="btn btn-primary">Cập nhật thông tin</button>
+                        <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
+                    </form>
                 </div>
 
                 <!-- Change Password Section -->
                 <div class="bg-white shadow rounded p-4">
                     <h4 class="mb-4">Thay đổi mật khẩu</h4>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Mật khẩu hiện tại</label>
-                            <input type="password" class="form-control" placeholder="Nhập mật khẩu hiện tại">
+                    <form action="{{ route('user.profile.password') }}" method="post">
+                        @csrf
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Mật khẩu hiện tại</label>
+                                <input type="password" name="current_password" class="form-control" placeholder="Nhập mật khẩu hiện tại">
+                                @error('current_password')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Mật khẩu mới</label>
-                            <input type="password" class="form-control" placeholder="Nhập mật khẩu mới">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Mật khẩu mới</label>
+                                <input type="password" name="new_password" class="form-control" placeholder="Nhập mật khẩu mới">
+                                @error('new_password')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Xác nhận mật khẩu mới</label>
+                                <input type="password" name="new_password_confirmation" class="form-control" placeholder="Nhập lại mật khẩu mới">
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Xác nhận mật khẩu mới</label>
-                            <input type="password" class="form-control" placeholder="Nhập lại mật khẩu mới">
-                        </div>
-                    </div>
-                    <button class="btn btn-warning">Thay đổi mật khẩu</button>
+                        <button type="submit" class="btn btn-warning">Thay đổi mật khẩu</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -244,19 +216,10 @@
 
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    @include('user.layouts.back_top')
 
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    @include('user.layouts.script')
 </body>
 
 </html>

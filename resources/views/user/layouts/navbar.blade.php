@@ -29,7 +29,7 @@
                         <i class="fa fa-user-circle me-1"></i> {{ Auth::user()->name }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow rounded-3">
-                        <li><a href="" class="dropdown-item"><i class="fa fa-user me-2"></i>Trang cá nhân</a></li>
+                        <li><a href="{{ route('user.profile') }}" class="dropdown-item"><i class="fa fa-user me-2"></i>Trang cá nhân</a></li>
                         <li><a href="" class="dropdown-item"><i class="fa fa-folder-open me-2"></i>Tài liệu của tôi</a></li>
                         <li><a href="" class="dropdown-item"><i class="fa fa-history me-2"></i>Lịch sử mua</a></li>
                         <li><a href="" class="dropdown-item"><i class="fa fa-credit-card me-2"></i>Nạp tiền</a></li>
